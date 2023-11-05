@@ -7533,12 +7533,18 @@ We will take our data about streams from official Youtube's weekly music &amp; c
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">dateutil</span> <span class="kn">import</span> <span class="n">parser</span>
+<span class="kn">import</span> <span class="nn">plotly.express</span> <span class="k">as</span> <span class="nn">px</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objs</span> <span class="k">as</span> <span class="nn">go</span>
 <span class="kn">from</span> <span class="nn">dateutil.relativedelta</span> <span class="kn">import</span> <span class="n">relativedelta</span>
 <span class="kn">import</span> <span class="nn">plotly.io</span> <span class="k">as</span> <span class="nn">pio</span>
 <span class="n">pio</span><span class="o">.</span><span class="n">renderers</span><span class="o">.</span><span class="n">default</span><span class="o">=</span><span class="s1">'notebook'</span>
 <span class="kn">import</span> <span class="nn">glob</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">statistics</span>
+<span class="kn">import</span> <span class="nn">ipywidgets</span> <span class="k">as</span> <span class="nn">pw</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display</span>
+<span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="n">interact</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">clear_output</span>
 </pre></div>
 </div>
 </div>
@@ -7608,7 +7614,7 @@ We will take our data about streams from official Youtube's weekly music &amp; c
     <span class="n">df_youtube</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">read_youtube_file</span><span class="p">,</span> <span class="n">files</span><span class="p">),</span> <span class="n">ignore_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># Clean data</span>
-    <span class="n">df_youtube</span><span class="p">[</span><span class="s1">'Artist Name'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_youtube</span><span class="p">[</span><span class="s1">'Artist Name'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">df_youtube</span><span class="p">[</span><span class="s1">'Artist Name'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_youtube</span><span class="p">[</span><span class="s1">'Artist Name'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
     <span class="n">df_youtube</span><span class="p">[</span><span class="s1">'Year'</span><span class="p">]</span> <span class="o">=</span> <span class="n">year</span>
     <span class="n">df_youtube</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span> <span class="kc">True</span> <span class="p">,</span> <span class="n">inplace</span><span class="o">=</span> <span class="kc">True</span> <span class="p">)</span>
     <span class="k">return</span> <span class="n">df_youtube</span>
@@ -7629,6 +7635,23 @@ We will take our data about streams from official Youtube's weekly music &amp; c
 <span class="n">df_youtube_2021</span> <span class="o">=</span> <span class="n">concatYoutube</span><span class="p">(</span><span class="mi">2021</span><span class="p">)</span>
 <span class="n">df_youtube_2022</span> <span class="o">=</span> <span class="n">concatYoutube</span><span class="p">(</span><span class="mi">2022</span><span class="p">)</span>
 <span class="n">df_youtube_2023_partly</span> <span class="o">=</span> <span class="n">concatYoutube</span><span class="p">(</span><span class="mi">2023</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Different writing of Indian artist Antra Singh Priyanka</span>
+<span class="c1"># We have to Change writing </span>
+<span class="n">df_youtube_2022</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'aantra singh priyanka'</span><span class="p">,</span> <span class="s1">'antra singh priyanka'</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df_youtube_2022</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">'antra priyanka singh'</span><span class="p">,</span> <span class="s1">'antra singh priyanka'</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7690,7 +7713,7 @@ We will take our data about streams from official Youtube's weekly music &amp; c
 <th>0</th>
 <td>1</td>
 <td>1.0</td>
-<td>Alka Yagnik</td>
+<td>alka yagnik</td>
 <td>225</td>
 <td>338998369</td>
 <td>3.2%</td>
@@ -7701,7 +7724,7 @@ We will take our data about streams from official Youtube's weekly music &amp; c
 <th>1</th>
 <td>2</td>
 <td>2.0</td>
-<td>Udit Narayan</td>
+<td>udit narayan</td>
 <td>246</td>
 <td>238147409</td>
 <td>-0.5%</td>
@@ -7712,7 +7735,7 @@ We will take our data about streams from official Youtube's weekly music &amp; c
 <th>2</th>
 <td>3</td>
 <td>3.0</td>
-<td>Bad Bunny</td>
+<td>bad bunny</td>
 <td>220</td>
 <td>220591768</td>
 <td>-2.1%</td>
@@ -7723,7 +7746,7 @@ We will take our data about streams from official Youtube's weekly music &amp; c
 <th>3</th>
 <td>4</td>
 <td>5.0</td>
-<td>Kumar Sanu</td>
+<td>kumar sanu</td>
 <td>221</td>
 <td>208665863</td>
 <td>-0.2%</td>
@@ -7734,7 +7757,7 @@ We will take our data about streams from official Youtube's weekly music &amp; c
 <th>4</th>
 <td>5</td>
 <td>4.0</td>
-<td>BTS</td>
+<td>bts</td>
 <td>255</td>
 <td>207303829</td>
 <td>-2.9%</td>
@@ -7924,6 +7947,17 @@ I made a list of all unique artists name and find their information through musi
 </div>
 </div>
 </div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<p>After getting artists information. We will add column Age Group and strip columns.</p>
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper" tabindex="0">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
@@ -7934,6 +7968,19 @@ I made a list of all unique artists name and find their information through musi
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">df_artists_info</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_file</span><span class="p">,</span> <span class="s2">"artists_info_combined.csv"</span><span class="p">))</span>
 <span class="n">df_artists_info</span> <span class="o">=</span> <span class="n">df_artists_info</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">'Unnamed: 0.1'</span><span class="p">,</span> <span class="s1">'Unnamed: 0'</span><span class="p">])</span>
+<span class="n">df_artists_info</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"Artist"</span><span class="p">:</span> <span class="s2">"Artist Name"</span><span class="p">},</span> <span class="n">errors</span><span class="o">=</span><span class="s2">"raise"</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Artist Name'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Artist Name'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Type'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Type'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Gender'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Gender'</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+<span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span><span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Age'</span><span class="p">]</span><span class="o">==</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Age'</span><span class="p">]</span><span class="o">&lt;</span><span class="mf">18.0</span><span class="p">,</span>
+              <span class="p">(</span><span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Age'</span><span class="p">]</span><span class="o">&gt;=</span><span class="mf">18.0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Age'</span><span class="p">]</span><span class="o">&lt;=</span><span class="mf">24.0</span><span class="p">),</span>
+              <span class="p">(</span><span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Age'</span><span class="p">]</span><span class="o">&gt;=</span><span class="mf">25.0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Age'</span><span class="p">]</span><span class="o">&lt;=</span><span class="mf">34.0</span><span class="p">),</span>
+              <span class="p">(</span><span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Age'</span><span class="p">]</span><span class="o">&gt;=</span><span class="mf">35.0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Age'</span><span class="p">]</span><span class="o">&lt;=</span><span class="mf">44.0</span><span class="p">),</span>
+              <span class="p">(</span><span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Age'</span><span class="p">]</span><span class="o">&gt;=</span><span class="mf">45.0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Age'</span><span class="p">]</span><span class="o">&lt;=</span><span class="mf">54.0</span><span class="p">),</span>
+              <span class="p">(</span><span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Age'</span><span class="p">]</span><span class="o">&gt;=</span><span class="mf">55.0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Age'</span><span class="p">]</span><span class="o">&lt;=</span><span class="mf">64.0</span><span class="p">),</span>
+              <span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Age'</span><span class="p">]</span><span class="o">&gt;=</span><span class="mf">65.0</span><span class="p">]</span>
+<span class="n">choices</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Not defined"</span><span class="p">,</span> <span class="s2">"till 17"</span><span class="p">,</span> <span class="s2">"18 to 24"</span><span class="p">,</span> <span class="s2">"25 to 34"</span><span class="p">,</span> <span class="s2">"35 to 44"</span><span class="p">,</span> <span class="s2">"45 to 54"</span><span class="p">,</span> <span class="s2">"55 to 64"</span><span class="p">,</span> <span class="s2">"65 or over"</span><span class="p">]</span>
+<span class="n">df_artists_info</span><span class="p">[</span><span class="s1">'Age Group'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">conditions</span><span class="p">,</span> <span class="n">choices</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">'Not defined'</span><span class="p">)</span>
 <span class="n">df_artists_info</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -7965,53 +8012,59 @@ I made a list of all unique artists name and find their information through musi
 <thead>
 <tr style="text-align: right;">
 <th></th>
-<th>Artist</th>
+<th>Artist Name</th>
 <th>Type</th>
 <th>Country</th>
 <th>Gender</th>
 <th>Age</th>
+<th>Age Group</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <th>0</th>
 <td>twenty one pilots</td>
-<td>Group</td>
+<td>group</td>
 <td>US</td>
-<td>Male</td>
+<td>male</td>
 <td>34.0</td>
+<td>25 to 34</td>
 </tr>
 <tr>
 <th>1</th>
-<td>Pawan Singh</td>
-<td>Person</td>
+<td>pawan singh</td>
+<td>person</td>
 <td>IN</td>
 <td>male</td>
 <td>37.0</td>
+<td>35 to 44</td>
 </tr>
 <tr>
 <th>2</th>
-<td>Renuka Panwar</td>
-<td>Person</td>
+<td>renuka panwar</td>
+<td>person</td>
 <td>IN</td>
 <td>female</td>
 <td>21.0</td>
+<td>18 to 24</td>
 </tr>
 <tr>
 <th>3</th>
-<td>Lana Del Rey</td>
-<td>Person</td>
+<td>lana del rey</td>
+<td>person</td>
 <td>US</td>
 <td>female</td>
 <td>38.0</td>
+<td>35 to 44</td>
 </tr>
 <tr>
 <th>4</th>
-<td>Pop Smoke</td>
-<td>Person</td>
+<td>pop smoke</td>
+<td>person</td>
 <td>US</td>
 <td>male</td>
 <td>20.0</td>
+<td>18 to 24</td>
 </tr>
 </tbody>
 </table>
@@ -8027,7 +8080,37 @@ I made a list of all unique artists name and find their information through musi
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<p>Take a look at top-100 most streamed artists</p>
+<p>We will save cleaned and transformed data for our former analysis.</p>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">path_artists_final</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_file</span><span class="p">,</span> <span class="s2">"artists_info_final.csv"</span><span class="p">)</span>
+<span class="n">df_artists_info</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">path_artists_final</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+<div class="cm-editor cm-s-jupyter">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">path_youtube_views_concate</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">current_file</span><span class="p">,</span> <span class="s2">"youtube_views_concate.csv"</span><span class="p">)</span>
+<span class="n">df_youtube_2021_2022_2023p</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">path_youtube_views_concate</span><span class="p">)</span> 
+</pre></div>
+</div>
 </div>
 </div>
 </div>
